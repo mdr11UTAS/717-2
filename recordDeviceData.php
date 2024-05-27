@@ -1,5 +1,5 @@
 <?php
-
+require_once 'config.php';
 require_once BASE_URL.'Clean_Train_and_predict/load_and_predict.php';
 
 // Show any errors
@@ -7,11 +7,13 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
 
+$directory = 'C:/xampp/htdocs/717/';
+
 // Ensure the directory exists and set its permissions
-if (!is_dir(BASE_URL)) {
-    mkdir(BASE_URL, 0777, true);
+if (!is_dir($directory)) {
+    mkdir($directory, 0777, true);
 }
-chmod(BASE_URL, 0777);
+chmod($directory, 0777);
 
 
 $locationNames = [

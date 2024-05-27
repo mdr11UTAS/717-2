@@ -1,0 +1,24 @@
+[27-May-2024 08:01:19 Europe/Berlin] PHP Warning:  file_put_contents(Training_data/cleaned_training_data_temp.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 15
+[27-May-2024 08:01:19 Europe/Berlin] PHP Warning:  fopen(Training_data/cleaned_training_data_temp.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 164
+[27-May-2024 08:01:19 Europe/Berlin] PHP Warning:  fopen(Raw_data/091107_Cleaned_Wynyard_9 km.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 22
+[27-May-2024 08:01:19 Europe/Berlin] PHP Warning:  fopen(Raw_data/091237_Cleaned_Launceston_1 km.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 22
+[27-May-2024 08:01:19 Europe/Berlin] PHP Warning:  fopen(Raw_data/091292_Cleaned_Smithton_3 km.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 22
+[27-May-2024 08:01:19 Europe/Berlin] PHP Warning:  fopen(Raw_data/094029_Cleaned_Hobart_6 km.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 22
+[27-May-2024 08:01:19 Europe/Berlin] PHP Warning:  fopen(Raw_data/094212_Cleaned_Campania_14 km.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 22
+[27-May-2024 08:01:19 Europe/Berlin] PHP Warning:  rename(Training_data/cleaned_training_data_temp.csv,Training_data/cleaned_training_data.csv): The system cannot find the path specified (code: 3) in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 192
+[27-May-2024 08:02:31 Europe/Berlin] PHP Warning:  require_once(config.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 5
+[27-May-2024 08:02:31 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'config.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php:5
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 5
+[27-May-2024 08:02:44 Europe/Berlin] PHP Warning:  fopen(Raw_data/091237_Cleaned_Launceston_1 km.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 22
+[27-May-2024 08:02:44 Europe/Berlin] PHP Warning:  fopen(Raw_data/091292_Cleaned_Smithton_3 km.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 22
+[27-May-2024 08:02:44 Europe/Berlin] PHP Warning:  fopen(Raw_data/094029_Cleaned_Hobart_6 km.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 22
+[27-May-2024 08:02:44 Europe/Berlin] PHP Warning:  fopen(Raw_data/094212_Cleaned_Campania_14 km.csv): Failed to open stream: No such file or directory in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 22
+[27-May-2024 08:02:44 Europe/Berlin] PHP Warning:  rename(C:/xampp/htdocs/717/Training_data/cleaned_training_data_temp.csv,Training_data/cleaned_training_data.csv): The system cannot find the path specified (code: 3) in C:\xampp\htdocs\717\Clean_Train_and_predict\data_cleaning.php on line 192
+[27-May-2024 09:39:27 Europe/Berlin] PHP Fatal error:  Uncaught Phpml\Exception\FileException: File "humidity_model.phpml" cannot be opened. in C:\xampp\vendor\php-ai\php-ml\src\ModelManager.php:32
+Stack trace:
+#0 C:\xampp\htdocs\717\Clean_Train_and_predict\load_and_predict.php(82): Phpml\ModelManager->restoreFromFile('Saved_models/hu...')
+#1 C:\xampp\htdocs\717\Clean_Train_and_predict\load_and_predict.php(122): generatePredictions(91107, '2015-03-30')
+#2 {main}
+  thrown in C:\xampp\vendor\php-ai\php-ml\src\ModelManager.php on line 32

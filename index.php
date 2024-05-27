@@ -2,29 +2,11 @@
 include_once 'config.php';
 require_once BASE_URL.'Clean_Train_and_predict/load_and_predict.php';
 
-$raw_xml = simplexml_load_file("recordData.xml");
-$json_data = json_encode($raw_xml);
-$data = json_decode($json_data, true);
-$last_record = end($data['record']);
-
 $loadPredict = loadPredict($last_record['location_id'], $last_record['date']);
-
-
-// Array mapping site numbers to location names
-$locationNames = [
-    91107 => 'Wynyard',
-    91237 => 'Launceston',
-    91292 => 'Smithton',
-    94029 => 'Hobart',
-    94212 => 'Campania',
-    // Add more site numbers and names as needed
-];
-
 $locationName = isset($locationNames[$last_record['location_id']]) ? $locationNames[$last_record['location_id']] : 'Unknown Location';
 $specificDate = $last_record['date'];
 $dateMetrics = $loadPredict['dateMetrics'];
 $halfHourAverages = $loadPredict['halfHourAverages'];
-
 ?>
 
 <!DOCTYPE html>

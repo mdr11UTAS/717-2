@@ -1,2 +1,2 @@
 <?php
-const BASE_URL = 'C:/xampp/htdocs/717/';
+define('BASE_URL', 'C:/xampp/htdocs/717/');

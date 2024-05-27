@@ -100,9 +100,6 @@ function generatePredictions($specificSiteNumber, $specificDate)
     return $predictions;
 }
 
-// Predict for a specific site number and date
-$specificSiteNumber = 94212;
-$specificDate = '2015-09-02';
 
 // Function to display predictions for a specific site number and date
 function loadPredict($specificSiteNumber, $specificDate)
@@ -116,6 +113,22 @@ function loadPredict($specificSiteNumber, $specificDate)
 
 }
 
+$raw_xml = simplexml_load_file("recordData.xml");
+$json_data = json_encode($raw_xml);
+$data = json_decode($json_data, true);
+$last_record = end($data['record']);
 
+$loadPredict = loadPredict($last_record['location_id'], $last_record['date']);
+
+
+// Array mapping site numbers to location names
+$locationNames = [
+    91107 => 'Wynyard',
+    91237 => 'Launceston',
+    91292 => 'Smithton',
+    94029 => 'Hobart',
+    94212 => 'Campania',
+    // Add more site numbers and names as needed
+];
 
 

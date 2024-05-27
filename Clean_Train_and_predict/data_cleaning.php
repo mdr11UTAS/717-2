@@ -2,7 +2,7 @@
 ini_set('memory_limit', '1024M');
 ini_set('log_errors', 1);
 ini_set('error_log', 'error.log');
-
+require_once '../config.php';
 // Function to log messages
 function logMessage($message)
 {
@@ -11,7 +11,7 @@ function logMessage($message)
 
 function readCsvFiles($filenames)
 {
-    $tempFile = 'Training_data/cleaned_training_data_temp.csv';
+    $tempFile = BASE_URL.'Training_data/cleaned_training_data_temp.csv';
     file_put_contents($tempFile, ''); // Initialize the temporary file
 
     // Add header to the temporary file
@@ -177,11 +177,11 @@ function writeCsvFile($data, $filename, $mode = 'w')
 
 // Read data from the CSV files
 $filenames = [
-    'Raw_data/091107_Cleaned_Wynyard_9 km.csv',
-    'Raw_data/091237_Cleaned_Launceston_1 km.csv',
-    'Raw_data/091292_Cleaned_Smithton_3 km.csv',
-    'Raw_data/094029_Cleaned_Hobart_6 km.csv',
-    'Raw_data/094212_Cleaned_Campania_14 km.csv',
+    BASE_URL.'Raw_data/091107_Cleaned_Wynyard_9 km.csv',
+    BASE_URL.'Raw_data/091237_Cleaned_Launceston_1 km.csv',
+    BASE_URL.'Raw_data/091292_Cleaned_Smithton_3 km.csv',
+    BASE_URL.'Raw_data/094029_Cleaned_Hobart_6 km.csv',
+    BASE_URL.'Raw_data/094212_Cleaned_Campania_14 km.csv',
 
 ];
 
@@ -189,7 +189,7 @@ $filenames = [
 $tempFile = readCsvFiles($filenames);
 
 // Rename temp file to final output
-rename($tempFile, 'Training_data/cleaned_training_data.csv');
+rename($tempFile, BASE_URL.'Training_data/cleaned_training_data.csv');
 
 echo "Data cleaned and written to cleaned_training_data.csv";
 ?>
