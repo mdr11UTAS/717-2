@@ -1,28 +1,13 @@
 <?php
 require_once 'config.php';
-require_once BASE_URL.'Clean_Train_and_predict/load_and_predict.php';
-
-// Show any errors
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
-
-$directory = 'C:/xampp/htdocs/717/';
-
-// Ensure the directory exists and set its permissions
-if (!is_dir($directory)) {
-    mkdir($directory, 0777, true);
-}
-chmod($directory, 0777);
-
+require_once BASE_URL . 'load_and_predict.php';
 
 $locationNames = [
-    91107 => 'Wynyard',
-    91237 => 'Launceston',
-    91292 => 'Smithton',
-    94029 => 'Hobart',
-    94212 => 'Campania',
-    // Add more site numbers and names as needed
+    1 => 'Wynyard',
+    2 => 'Launceston',
+    3 => 'Smithton',
+    4 => 'Hobart',
+    5 => 'Campania',
 ];
 
 // Check if all necessary parameters are present
@@ -33,14 +18,15 @@ if (
     // Initialize an empty string
     $str = '';
 
-    // If the XML file already exists, read its content
-    if (file_exists('recordData.xml')) {
-        $str = file_get_contents('recordData.xml');
-    }
-
-    // If the string is empty, initialize it with XML declaration
-    if (strlen($str) == 0) {
+    // Check if the XML file exists
+    $xmlFilePath = 'recordData.xml';
+    if (file_exists($xmlFilePath)) {
+        // If the XML file exists, read its content
+        $str = file_get_contents($xmlFilePath);
+    } else {
+        // If the XML file does not exist, create it with an empty records element
         $str = "<?xml version='1.0' encoding='UTF-8'?>\n<records></records>";
+        file_put_contents($xmlFilePath, $str);
     }
 
     // Create new XML data for appending
@@ -54,14 +40,14 @@ if (
     $str = str_replace("</records>", $newData, $str);
 
     // Write the updated XML back to the server
-    $saveFile = file_put_contents('recordData.xml', $str);
+    $saveFile = file_put_contents($xmlFilePath, $str);
 
     // Check if file writing was successful and set HTTP response code accordingly
     if (!$saveFile) {
         http_response_code(405); // Method Not Allowed
     }
 
-
+    // Load predictions
     $loadPredict = loadPredict($_GET['location_id'], $_GET['date']);
 
     // Send the data as a JSON response

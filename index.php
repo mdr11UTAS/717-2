@@ -1,6 +1,6 @@
 <?php
 include_once 'config.php';
-require_once BASE_URL.'Clean_Train_and_predict/load_and_predict.php';
+require_once BASE_URL . 'load_and_predict.php';
 
 $loadPredict = loadPredict($last_record['location_id'], $last_record['date']);
 $locationName = isset($locationNames[$last_record['location_id']]) ? $locationNames[$last_record['location_id']] : 'Unknown Location';
@@ -127,12 +127,13 @@ $halfHourAverages = $loadPredict['halfHourAverages'];
 
     const locationName = "<?php echo $locationName; ?>";
     const specificDate = '<?php echo $specificDate; ?>';
+    const chartData = <?php echo json_encode($halfHourAverages); ?>;
 
     function renderTempChart() {
-        const tempChartData = <?php echo json_encode($halfHourAverages['averageTemps']); ?>;
-        const tempDataPoints = tempChartData.map(data => ({
-            x: new Date(`${specificDate} ${data.time}`),
-            y: data.prediction_temp
+
+        const tempDataPoints = chartData.map(data => ({
+            x: new Date(`${specificDate} ${data.halfHourTime}`),
+            y: parseFloat(data.predictedTemperature)
         }));
 
         const tempChart = new CanvasJS.Chart("tempChart", {
@@ -160,10 +161,10 @@ $halfHourAverages = $loadPredict['halfHourAverages'];
     }
 
     function renderHumidityChart() {
-        const humidityChartData = <?php echo json_encode($halfHourAverages['averageHumidity']); ?>;
-        const humidityDataPoints = humidityChartData.map(data => ({
-            x: new Date(`${specificDate} ${data.time}`),
-            y: data.prediction_humidity
+
+        const humidityDataPoints = chartData.map(data => ({
+            x: new Date(`${specificDate} ${data.halfHourTime}`),
+            y: parseFloat(data.predictedHumidity)
         }));
 
         const humidityChart = new CanvasJS.Chart("humidityChart", {
