@@ -1,12 +1,25 @@
 <?php
 include_once 'config.php';
-require_once BASE_URL . 'load_and_predict.php';
+require_once BASE_URL . 'average_temp_humid.php';
 
-$loadPredict = loadPredict($last_record['location_id'], $last_record['date']);
+$xmlFilePath = "recordData.xml";
+$locationNames = [
+    1 => 'Wynyard',
+    2 => 'Launceston',
+    3 => 'Smithton',
+    4 => 'Hobart',
+    5 => 'Campania',
+];
+$raw_xml = simplexml_load_file($xmlFilePath);
+$json_data = json_encode($raw_xml);
+$data = json_decode($json_data, true);
+$last_record = end($data['record']);
 $locationName = isset($locationNames[$last_record['location_id']]) ? $locationNames[$last_record['location_id']] : 'Unknown Location';
-$specificDate = $last_record['date'];
-$dateMetrics = $loadPredict['dateMetrics'];
-$halfHourAverages = $loadPredict['halfHourAverages'];
+// Input date and site ID
+$inputDate = $last_record['date'];
+$siteId = intval($last_record['location_id']);
+$averageData = calculateHalfHourlyAverages( $inputDate, $siteId);
+$predictions = generateMinMaxPredictions($last_record['location_id'],$last_record['date']);
 ?>
 
 <!DOCTYPE html>
@@ -67,13 +80,13 @@ $halfHourAverages = $loadPredict['halfHourAverages'];
                 </thead>
                 <tbody>
                 <tr>
-                    <td>Predicted Min Temperature</td>
-                    <td><b><?php echo($dateMetrics['minTemp'] !== null ? $dateMetrics['minTemp'] : 'N/A'); ?></b> &#176;
+                    <td>Average Min Temperature</td>
+                    <td><b><?php echo($predictions['minTemperaturePrediction'] !== null ? $predictions['minTemperaturePrediction'] : 'N/A'); ?></b> &#176;
                     </td>
                 </tr>
                 <tr>
-                    <td>Predicted Max Temperature</td>
-                    <td><b><?php echo($dateMetrics['maxTemp'] !== null ? $dateMetrics['maxTemp'] : 'N/A'); ?> &#176;</b>
+                    <td>Average Max Temperature</td>
+                    <td><b><?php echo($predictions['maxTemperaturePrediction'] !== null ? $predictions['maxTemperaturePrediction'] : 'N/A'); ?> &#176;</b>
                     </td>
                 </tr>
                 </tbody>
@@ -91,11 +104,11 @@ $halfHourAverages = $loadPredict['halfHourAverages'];
                 <tbody>
                 <tr>
                     <td>Predicted Min Humidity</td>
-                    <td><b><?php echo($dateMetrics['minHumid'] !== null ? $dateMetrics['minHumid'] : 'N/A'); ?></b></td>
+                    <td><b><?php echo($predictions['minHumidityPrediction'] !== null ? $predictions['minHumidityPrediction'] : 'N/A'); ?></b></td>
                 </tr>
                 <tr>
                     <td>Predicted Max Humidity</td>
-                    <td><b><?php echo($dateMetrics['maxHumid'] !== null ? $dateMetrics['maxHumid'] : 'N/A'); ?></b></td>
+                    <td><b><?php echo($predictions['maxHumidityPrediction'] !== null ? $predictions['maxHumidityPrediction'] : 'N/A'); ?></b></td>
                 </tr>
                 </tbody>
             </table>
@@ -126,34 +139,34 @@ $halfHourAverages = $loadPredict['halfHourAverages'];
     }
 
     const locationName = "<?php echo $locationName; ?>";
-    const specificDate = '<?php echo $specificDate; ?>';
-    const chartData = <?php echo json_encode($halfHourAverages); ?>;
+    const inputDate = '<?php echo $inputDate; ?>';
+    const chartData = <?php echo json_encode($averageData); ?>;
 
     function renderTempChart() {
 
         const tempDataPoints = chartData.map(data => ({
-            x: new Date(`${specificDate} ${data.halfHourTime}`),
-            y: parseFloat(data.predictedTemperature)
+            x: new Date(`${inputDate} ${data.time}`),
+            y: parseFloat(data.avgTemp)
         }));
 
         const tempChart = new CanvasJS.Chart("tempChart", {
             animationEnabled: true,
             theme: "light2",
             title: {
-                text: "Predicted Temperature of " + locationName + " ( " + specificDate + " ) "
+                text: "Average Temperature of " + locationName + " ( " + inputDate + " ) "
             },
             axisX: {
                 title: "Time",
                 valueFormatString: "HH:mm"
             },
             axisY: {
-                title: "Temperature",
+                title: "Average Temperature",
                 includeZero: false
             },
             data: [{
                 type: "scatter",
                 name: "Temperature",
-                toolTipContent: "<b>{x}</b><br>Temperature: {y}",
+                toolTipContent: "<b>{x}</b><br>Average Temperature: {y}",
                 dataPoints: tempDataPoints
             }]
         });
@@ -163,28 +176,28 @@ $halfHourAverages = $loadPredict['halfHourAverages'];
     function renderHumidityChart() {
 
         const humidityDataPoints = chartData.map(data => ({
-            x: new Date(`${specificDate} ${data.halfHourTime}`),
-            y: parseFloat(data.predictedHumidity)
+            x: new Date(`${inputDate} ${data.time}`),
+            y: parseFloat(data.avgHumid)
         }));
 
         const humidityChart = new CanvasJS.Chart("humidityChart", {
             animationEnabled: true,
             theme: "light2",
             title: {
-                text: "Predicted Humidity of " + locationName + " ( " + specificDate + " ) "
+                text: "Average Humidity of " + locationName + " ( " + inputDate + " ) "
             },
             axisX: {
                 title: "Time",
                 valueFormatString: "HH:mm"
             },
             axisY: {
-                title: "Humidity",
+                title: "Average Humidity",
                 includeZero: false
             },
             data: [{
                 type: "scatter",
                 name: "Humidity",
-                toolTipContent: "<b>{x}</b><br>Humidity: {y}",
+                toolTipContent: "<b>{x}</b><br>Average Humidity: {y}",
                 dataPoints: humidityDataPoints
             }]
         });

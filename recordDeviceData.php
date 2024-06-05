@@ -47,17 +47,9 @@ if (
         http_response_code(405); // Method Not Allowed
     }
 
-    // Load predictions
-    $loadPredict = loadPredict($_GET['location_id'], $_GET['date']);
-
     // Send the data as a JSON response
     header('Content-Type: application/json');
-    $response = [
-        'date' => $_GET['date'],
-        'location_id' => $_GET['location_id'],
-        'location_name' => $locationNames[$_GET['location_id']],
-        'metrics' => $loadPredict['dateMetrics']
-    ];
+    $response = generateMinMaxPredictions($_GET['location_id'], $_GET['date']);
     echo json_encode($response);
 } else {
     echo json_encode(array("error" => "Location id not found"));
