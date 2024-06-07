@@ -41,4 +41,16 @@
         <location_name>Campania</location_name>
         <date>2022-01-02</date>
     </record>
+
+<record>
+        <location_id>1</location_id>
+        <location_name>Wynyard</location_name>
+        <date>2015-01-01</date>
+    </record>
+
+<record>
+        <location_id>1</location_id>
+        <location_name>Wynyard</location_name>
+        <date>2016-01-01</date>
+    </record>
 </records>
