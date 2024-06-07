@@ -63,7 +63,7 @@ def enter_setup_mode():
                             site_id = 5
                 elif event.direction == "middle":
                     if mode == 2:
-                        sense.show_message("Settings saved", scroll_speed=0.05, text_colour=[255, 0, 0])
+                        sense.show_message("Exit Setup Mode", scroll_speed=0.05, text_colour=[255, 0, 0])
                         sleep(1)
                         sense.clear()
                         selected_date = True
@@ -110,15 +110,15 @@ while True:
 
         if display_mode == "temperature":
             if response_data["minTemperaturePrediction"] <= current_temperature <= response_data["maxTemperaturePrediction"]:
-                sense.show_message(f"Temp: {current_temperature}C", scroll_speed=0.05, text_colour=[0, 255, 0])  # Green if within prediction
+                sense.show_message(f"Temp: {current_temperature}C", scroll_speed=0.05, text_colour=[0, 0, 139], back_colour=[0, 255, 0])  # Green if within prediction
             else:
-                sense.show_message(f"Temp: {current_temperature}C", scroll_speed=0.05, text_colour=[255, 0, 0])  # Red if lower than prediction
+                sense.show_message(f"Temp: {current_temperature}C", scroll_speed=0.05, text_colour=[0, 0, 139], back_colour=[255, 0, 0])  # Red if lower than prediction
             sleep(1)
         elif display_mode == "humidity":
             if response_data["minHumidityPrediction"] <= current_humidity <= response_data["maxHumidityPrediction"]:
-                sense.show_message(f"Humidity: {current_humidity}%", scroll_speed=0.05, text_colour=[0, 255, 0])  # Green if within prediction
+                sense.show_message(f"Humidity: {current_humidity}%", scroll_speed=0.05, text_colour=[0, 0, 139], back_colour=[0, 255, 0])  # Green if within prediction
             else:
-                sense.show_message(f"Humidity: {current_humidity}%", scroll_speed=0.05, text_colour=[255, 0, 0])  # Red if lower than prediction
+                sense.show_message(f"Humidity: {current_humidity}%", scroll_speed=0.05, text_colour=[0, 0, 139], back_colour=[255, 0, 0])  # Red if lower than prediction
             sleep(1)
 
         for event in sense.stick.get_events():
