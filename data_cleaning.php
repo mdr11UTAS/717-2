@@ -1,9 +1,6 @@
 <?php
 ini_set('memory_limit', '1024M');
-ini_set('log_errors', 1);
-ini_set('error_log', 'error.log');
-require_once 'config.php';
-// Function to log messages
+
 function logMessage($message)
 {
     error_log(data_cleaning . phpdate('[Y-m-d H:i:s] ') . $message . "\n", 3, 'error.log');

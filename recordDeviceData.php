@@ -1,6 +1,6 @@
 <?php
-require_once 'config.php';
-require_once BASE_URL . 'load_and_predict.php';
+
+require_once 'load_and_predict.php';
 
 $locationNames = [
     1 => 'Wynyard',
@@ -12,9 +12,9 @@ $locationNames = [
 
 // Check if all necessary parameters are present
 if (
-    isset($_GET['location_id']) &&
-    isset($_GET['date']) && isset($locationNames[$_GET['location_id']])
+    isset($_GET['date']) && isset($locationNames[$_GET['site_id']])
 ) {
+    
     // Initialize an empty string
     $str = '';
 
@@ -31,8 +31,8 @@ if (
 
     // Create new XML data for appending
     $newData = "\n<record>
-        <location_id>{$_GET['location_id']}</location_id>
-        <location_name>{$locationNames[$_GET['location_id']]}</location_name>
+        <location_id>{$_GET['site_id']}</location_id>
+        <location_name>{$locationNames[$_GET['site_id']]}</location_name>
         <date>{$_GET['date']}</date>
     </record>\n</records>";
 
@@ -49,7 +49,7 @@ if (
 
     // Send the data as a JSON response
     header('Content-Type: application/json');
-    $response = generateMinMaxPredictions($_GET['location_id'], $_GET['date']);
+    $response = generateMinMaxPredictions($_GET['site_id'], $_GET['date']);
     echo json_encode($response);
 } else {
     echo json_encode(array("error" => "Location id not found"));

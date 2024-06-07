@@ -1,17 +1,23 @@
 <?php
 
 ini_set('memory_limit', '2048M');
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
 
-require_once 'C:/xampp/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 use Phpml\ModelManager;
+
 
 
 // Function to generate predictions for a specific site number and date
 function generateMinMaxPredictions($specificSiteNumber, $specificDate)
 {
+    $locationNames = [
+    1 => 'Wynyard',
+    2 => 'Launceston',
+    3 => 'Smithton',
+    4 => 'Hobart',
+    5 => 'Campania',
+];
     $timestamp = strtotime($specificDate);
     $modelManager = new ModelManager();
     $linearHumidity = $modelManager->restoreFromFile('Saved_models/humidity_model.phpml');
@@ -28,7 +34,7 @@ function generateMinMaxPredictions($specificSiteNumber, $specificDate)
     $maxHumidityPrediction = $predictedHumidity[0] + ($humidityRange / 2);
 
     return [
-        'site_number' => $specificSiteNumber,
+        'site_name' => $locationNames[$specificSiteNumber],
         'timestamp' => date('Y-m-d', $timestamp),
         'minTemperaturePrediction' => round($minTemperaturePrediction, 1),
         'maxTemperaturePrediction' => round($maxTemperaturePrediction, 1),

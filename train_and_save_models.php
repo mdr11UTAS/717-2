@@ -2,9 +2,7 @@
 
 ini_set('memory_limit', '2048M');
 
-require_once 'C:/xampp/vendor/autoload.php';
-require_once 'config.php';
-
+require_once __DIR__ . '/vendor/autoload.php';
 use Phpml\Regression\LeastSquares;
 use Phpml\ModelManager;
 

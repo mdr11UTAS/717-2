@@ -1,25 +1,27 @@
 <?php
-include_once 'config.php';
-require_once BASE_URL . 'average_temp_humid.php';
 
+
+
+// Set error logging to a file
+ini_set('error_log', '/path/to/php_errors.log');
+
+// Enable error reporting and display errors for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+require_once 'average_temp_humid.php';
 $xmlFilePath = "recordData.xml";
-$locationNames = [
-    1 => 'Wynyard',
-    2 => 'Launceston',
-    3 => 'Smithton',
-    4 => 'Hobart',
-    5 => 'Campania',
-];
 $raw_xml = simplexml_load_file($xmlFilePath);
 $json_data = json_encode($raw_xml);
 $data = json_decode($json_data, true);
 $last_record = end($data['record']);
-$locationName = isset($locationNames[$last_record['location_id']]) ? $locationNames[$last_record['location_id']] : 'Unknown Location';
+
 // Input date and site ID
 $inputDate = $last_record['date'];
 $siteId = intval($last_record['location_id']);
 $averageData = calculateHalfHourlyAverages( $inputDate, $siteId);
 $predictions = generateMinMaxPredictions($last_record['location_id'],$last_record['date']);
+$locationName = $predictions['site_name'];
+
 ?>
 
 <!DOCTYPE html>

@@ -1,9 +1,9 @@
 <?php
-require_once 'config.php';
-require_once BASE_URL . 'load_and_predict.php';
+
+require_once 'load_and_predict.php';
 
 function calculateHalfHourlyAverages($inputDate, $siteId) {
-    $csvFilePath = BASE_URL . 'Training_data/cleaned_training_data.csv';
+    $csvFilePath = 'Training_data/cleaned_training_data.csv';
     // Parse input date to extract day and month
     $inputDayMonth = date("d-m", strtotime($inputDate));
 
